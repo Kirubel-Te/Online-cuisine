@@ -1,17 +1,24 @@
 import React from 'react'
-import { createBrowserRouter } from 'react-router'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
+import RootLayout from './Layout/RootLayout' 
+import Home from './pages/Home'
+import Categories from './pages/Categories'
+import Favourite from './pages/Favourite'
 
 const App = () => {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path='/' element={<RootLayout/>}>
+        <Route index element={<Home/>}/>
+        <Route path='Categories' element={<Categories/>} />
+        <Route path='Favourite' element={<Favourite/>}/>
+      </Route>
+    )
+  )
   return (
-    <div className="min-h-screen flex flex-col">
-      <NavBar/>
-      <main className="flex-1">
-      </main>
-
-      <Footer/>
-    </div>
+    <RouterProvider router={router}/>
   )
 }
 
