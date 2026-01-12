@@ -1,7 +1,8 @@
 import React from 'react'
-import { ChefHat, Clock, ForkKnife, Globe, Star, Watch } from 'lucide-react'
+import { ChefHat, Clock, ForkKnife, Globe, Star } from 'lucide-react'
 import { Search } from 'lucide-react'
 import DescCard from '../components/DescCard'
+import RecipeCard from '../components/RecipeCard'
 
 const Home = () => {
   return (
@@ -48,6 +49,9 @@ const Home = () => {
           <Star/>
           <span>My favorite</span>
         </button>
+      </div>
+      <div className='mb-8 mt-5 ml-7'>
+        <RecipeCard />
       </div>
     </div>
   )
