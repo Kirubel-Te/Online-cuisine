@@ -1,12 +1,37 @@
-import React from 'react'
-import { ChefHat, Clock, ForkKnife, Globe, Star } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { ChefHat, Clock, ForkKnife, Globe, Star, TrendingUp } from 'lucide-react'
 import { Search } from 'lucide-react'
 import DescCard from '../components/DescCard'
-import RecipeCard from '../components/RecipeCard'
+import RecipeCard from '../components/RecipeCard' 
 
 const Home = () => {
+  const [meals, setMeals] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const fetchRandomMeals = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const url = 'https://www.themealdb.com/api/json/v1/1/random.php'
+      const requests = Array.from({ length: 4 }).map(() => axios.get(url))
+      const responses = await Promise.all(requests)
+      const data = responses.map(r => r.data.meals[0])
+      setMeals(data)
+    } catch (err) {
+      setError('Failed to fetch meals')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchRandomMeals()
+  }, [])
+
   return (
-    <div>
+    <div> 
       <div>
         <div className='logo flex flex-col items-center justify-center mt-15'>
           <ChefHat className="md:w-18 md:h-18 w-13 h-13 text-amber-800" />
@@ -41,17 +66,29 @@ const Home = () => {
         <DescCard title="step-by-step" description="Detailed Instructions" logo={<Clock />} bgColor="bg-purple-200"/>
       </div>
       <div className='md:w-[25%] w-[75%]  mx-auto grid grid:cols-1 md:grid-cols-2 gap-3  mb-8'>
-        <button className='flex gap-1 py-2 px-2 rounded-md bg-orange-500 text-white hover:cursor-pointer justify-center hover:bg-amber-600'>
+        <button onClick={fetchRandomMeals} disabled={loading} className='flex gap-1 py-2 px-2 rounded-md bg-orange-500 text-white hover:cursor-pointer justify-center hover:bg-amber-600 disabled:opacity-50'>
           <ForkKnife/>
-          <span>Suprise Me!</span>
+          <span>{loading ? 'Loading...' : 'Surprise Me!'}</span>
         </button>
         <button className='flex gap-1 px-2 py-2 rounded-md border-2 border-orange-400 text-orange-400 justify-center hover:bg-orange-500 hover:text-white hover:cursor-pointer'>
           <Star/>
           <span>My favorite</span>
         </button>
       </div>
-      <div className='mb-8 mt-5 ml-7'>
-        <RecipeCard />
+
+      <div className="flex items-center gap-3 w-full md:w-[95%] lg:w-[98%] mx-auto mt-8 mb-4">
+        <TrendingUp className="text-amber-700 font-bold" />
+        <h3 className="text-4xl font-bold text-amber-800">Featured Today</h3>
+      </div>
+
+      <div className='mb-8 mt-5 w-full md:w-[95%] lg:w-[98%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 gap-y-8 items-stretch auto-rows-fr justify-items-stretch'>
+        {loading && <p className="col-span-full text-center">Loading...</p>}
+        {error && <p className="col-span-full text-center text-red-500">{error}</p>}
+        {!loading && meals.length > 0 && meals.map(meal => (
+          <div key={meal.idMeal} className="w-full p-2 box-border h-full">
+            <RecipeCard title={meal.strMeal} category={meal.strCategory} country={meal.strArea} image={meal.strMealThumb} />
+          </div>
+        ))}
       </div>
     </div>
   )

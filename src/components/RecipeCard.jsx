@@ -2,17 +2,17 @@ import React from 'react'
 import easter from '../assets/easter.png'
 import { Tag, MapPin, ForkKnife } from 'lucide-react'
 
-const RecipeCard = ({ title = 'Easter Special', category = 'Beef', country = 'Italy', image = easter }) => {
+const RecipeCard = ({ title , category, country , image }) => {
   return (
-    <div className="group w-full sm:w-88 bg-white rounded-xl shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer">
-      <div className="relative h-92 w-full overflow-hidden bg-gray-100">
-        <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+    <div className="group w-full bg-white rounded-xl shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer relative z-0 hover:z-10 flex flex-col h-full min-h-[420px]">
+      <div className="relative h-48 md:h-56 lg:h-64 w-full overflow-hidden bg-gray-100">
+        <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-500" />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </div>
 
-      <div className="p-4">
-        <h3 className="font-semibold text-lg text-gray-800">{title}</h3>
+      <div className="p-4 flex-1 flex flex-col">
+        <h3 className="font-semibold text-xl text-amber-900">{title}</h3>
 
         <div className="flex items-center gap-2 mt-3">
           <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-700 text-xs rounded-full px-2 py-1">
@@ -26,7 +26,7 @@ const RecipeCard = ({ title = 'Easter Special', category = 'Beef', country = 'It
           </span>
         </div>
 
-        <div className="mt-4">
+        <div className="mt-auto">
           <button className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-md bg-orange-500 text-white text-sm hover:bg-amber-600 transition-colors duration-200">
             <ForkKnife size={16} />
             <span>View Recipe</span>
