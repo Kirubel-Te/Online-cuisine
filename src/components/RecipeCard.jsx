@@ -1,8 +1,26 @@
-import React from 'react'
-import easter from '../assets/easter.png'
-import { Tag, MapPin, ForkKnife } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { Tag, MapPin, ForkKnife, Heart } from 'lucide-react'
 
-const RecipeCard = ({ title , category, country , image }) => {
+const RecipeCard = ({ title, category, country, image, id }) => {
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || []
+    setIsFavorite(favorites.includes(id))
+  }, [id])
+
+  const handleToggle = () => {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || []
+    let newFavorites
+    if (favorites.includes(id)) {
+      newFavorites = favorites.filter(favId => favId !== id)
+    } else {
+      newFavorites = [...favorites, id]
+    }
+    localStorage.setItem('favorites', JSON.stringify(newFavorites))
+    setIsFavorite(!isFavorite)
+  }
+
   return (
     <div className="group w-full bg-white rounded-xl shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer relative z-0 hover:z-10 flex flex-col h-full min-h-[420px]">
       <div className="relative h-48 md:h-56 lg:h-64 w-full overflow-hidden bg-gray-100">
@@ -24,6 +42,14 @@ const RecipeCard = ({ title , category, country , image }) => {
             <MapPin size={14} className="text-gray-600" />
             <span className="whitespace-nowrap">{country}</span>
           </span>
+
+          <div className="ml-auto">
+            <Heart
+              size={16}
+              className={`cursor-pointer ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}
+              onClick={handleToggle}
+            />
+          </div>
         </div>
 
         <div className="mt-auto">

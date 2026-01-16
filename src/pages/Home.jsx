@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { ChefHat, Clock, ForkKnife, Globe, Star, TrendingUp } from 'lucide-react'
+import { ChefHat, Clock, ForkKnife, Globe, Star, TrendingUp, Loader2 } from 'lucide-react'
 import { Search } from 'lucide-react'
 import DescCard from '../components/DescCard'
 import RecipeCard from '../components/RecipeCard' 
@@ -15,10 +15,11 @@ const Home = () => {
       setLoading(true)
       setError(null)
       const url = 'https://www.themealdb.com/api/json/v1/1/random.php'
-      const requests = Array.from({ length: 4 }).map(() => axios.get(url))
+      const requests = Array.from({ length: 8 }).map(() => axios.get(url))
       const responses = await Promise.all(requests)
       const data = responses.map(r => r.data.meals[0])
       setMeals(data)
+      localStorage.setItem('randomMeals', JSON.stringify(data))
     } catch (err) {
       setError('Failed to fetch meals')
     } finally {
@@ -27,7 +28,12 @@ const Home = () => {
   }
 
   useEffect(() => {
-    fetchRandomMeals()
+    const savedMeals = JSON.parse(localStorage.getItem('randomMeals')) || []
+    if (savedMeals.length > 0) {
+      setMeals(savedMeals)
+    } else {
+      fetchRandomMeals()
+    }
   }, [])
 
   return (
@@ -81,12 +87,12 @@ const Home = () => {
         <h3 className="text-4xl font-bold text-amber-800">Featured Today</h3>
       </div>
 
-      <div className='mb-8 mt-5 w-full md:w-[95%] lg:w-[98%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 gap-y-8 items-stretch auto-rows-fr justify-items-stretch'>
-        {loading && <p className="col-span-full text-center">Loading...</p>}
+      <div className='mb-8 mt-5 w-[95%] md:w-[95%] lg:w-[98%] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 gap-y-8 items-stretch auto-rows-fr justify-items-stretch'>
+        {loading && <div className="col-span-full flex justify-center"><Loader2 className="animate-spin text-amber-600" size={32} /></div>}
         {error && <p className="col-span-full text-center text-red-500">{error}</p>}
         {!loading && meals.length > 0 && meals.map(meal => (
           <div key={meal.idMeal} className="w-full p-2 box-border h-full">
-            <RecipeCard title={meal.strMeal} category={meal.strCategory} country={meal.strArea} image={meal.strMealThumb} />
+            <RecipeCard title={meal.strMeal} category={meal.strCategory} country={meal.strArea} image={meal.strMealThumb} id={meal.idMeal} />
           </div>
         ))}
       </div>
