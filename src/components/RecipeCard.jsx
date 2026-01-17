@@ -38,10 +38,12 @@ const RecipeCard = ({ title, category, country, image, id }) => {
             <span className="whitespace-nowrap">{category}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 text-xs rounded-full px-2 py-1">
-            <MapPin size={14} className="text-gray-600" />
-            <span className="whitespace-nowrap">{country}</span>
-          </span>
+          {country && (
+            <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 text-xs rounded-full px-2 py-1">
+              <MapPin size={14} className="text-gray-600" />
+              <span className="whitespace-nowrap">{country}</span>
+            </span>
+          )}
 
           <div className="ml-auto">
             <Heart

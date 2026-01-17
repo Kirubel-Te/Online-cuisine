@@ -1,8 +1,15 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const CategCard = ({ name, image }) => {
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate(`/category/${name}`)
+  }
+
   return (
-    <div className="group w-full bg-white rounded-xl shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer relative z-0 hover:z-10 flex flex-col h-full min-h-[320px]">
+    <div className="group w-full bg-white rounded-xl shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer relative z-0 hover:z-10 flex flex-col h-full min-h-[320px]" onClick={handleClick}>
       <div className="relative h-48 md:h-56 lg:h-64 w-full overflow-hidden bg-gray-100">
         <img src={image} alt={name} className="w-full h-full object-cover transition-transform duration-500" />
 
