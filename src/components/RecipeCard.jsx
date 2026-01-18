@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Tag, MapPin, ForkKnife, Heart } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const RecipeCard = ({ title, category, country, image, id }) => {
   const [isFavorite, setIsFavorite] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || []
@@ -55,7 +57,7 @@ const RecipeCard = ({ title, category, country, image, id }) => {
         </div>
 
         <div className="mt-auto">
-          <button className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-md bg-orange-500 text-white text-sm hover:bg-amber-600 transition-colors duration-200">
+          <button onClick={() => navigate(`/recipe/${id}`)} className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-md bg-orange-500 text-white text-sm hover:bg-amber-600 transition-colors duration-200">
             <ForkKnife size={16} />
             <span>View Recipe</span>
           </button>

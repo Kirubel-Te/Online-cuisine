@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import Categories from './pages/Categories'
 import Favourite from './pages/Favourite'
 import CategoryDetail from './pages/CategoryDetail'
+import RecipeDetail from './pages/RecipeDetail'
 
 const App = () => {
   const router = createBrowserRouter(
@@ -15,6 +16,7 @@ const App = () => {
         <Route index element={<Home/>}/>
         <Route path='Categories' element={<Categories/>} />
         <Route path='category/:categoryName' element={<CategoryDetail/>}/>
+        <Route path='recipe/:id' element={<RecipeDetail/>}/>
         <Route path='Favourite' element={<Favourite/>}/>
       </Route>
     )
