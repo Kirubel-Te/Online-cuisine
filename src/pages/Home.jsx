@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { ChefHat, Clock, ForkKnife, Globe, Star, TrendingUp, Loader2 } from 'lucide-react'
 import { Search } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import DescCard from '../components/DescCard'
 import RecipeCard from '../components/RecipeCard' 
 
@@ -9,6 +10,7 @@ const Home = () => {
   const [meals, setMeals] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   const fetchRandomMeals = async () => {
     try {
@@ -76,7 +78,7 @@ const Home = () => {
           <ForkKnife/>
           <span>{loading ? 'Loading...' : 'Surprise Me!'}</span>
         </button>
-        <button className='flex gap-1 px-2 py-2 rounded-md border-2 border-orange-400 text-orange-400 justify-center hover:bg-orange-500 hover:text-white hover:cursor-pointer'>
+        <button onClick={() => navigate('/Favourite')} className='flex gap-1 px-2 py-2 rounded-md border-2 border-orange-400 text-orange-400 justify-center hover:bg-orange-500 hover:text-white hover:cursor-pointer'>
           <Star/>
           <span>My favorite</span>
         </button>
