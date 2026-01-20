@@ -1,27 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Tag, MapPin, ForkKnife, Heart } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useFavourites } from '../contexts/FavouritesContext'
 
 const RecipeCard = ({ title, category, country, image, id }) => {
-  const [isFavorite, setIsFavorite] = useState(false)
   const navigate = useNavigate()
-
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || []
-    setIsFavorite(favorites.includes(id))
-  }, [id])
-
-  const handleToggle = () => {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || []
-    let newFavorites
-    if (favorites.includes(id)) {
-      newFavorites = favorites.filter(favId => favId !== id)
-    } else {
-      newFavorites = [...favorites, id]
-    }
-    localStorage.setItem('favorites', JSON.stringify(newFavorites))
-    setIsFavorite(!isFavorite)
-  }
+  const { toggleFavourite, isFavourite } = useFavourites()
 
   return (
     <div className="group w-full bg-white rounded-xl shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer relative z-0 hover:z-10 flex flex-col h-full min-h-[420px]">
@@ -50,8 +34,8 @@ const RecipeCard = ({ title, category, country, image, id }) => {
           <div className="ml-auto">
             <Heart
               size={16}
-              className={`cursor-pointer ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}
-              onClick={handleToggle}
+              className={`cursor-pointer ${isFavourite(id) ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}
+              onClick={() => toggleFavourite(id)}
             />
           </div>
         </div>

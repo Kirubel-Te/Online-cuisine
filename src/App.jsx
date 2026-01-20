@@ -8,6 +8,7 @@ import Categories from './pages/Categories'
 import Favourite from './pages/Favourite'
 import CategoryDetail from './pages/CategoryDetail'
 import RecipeDetail from './pages/RecipeDetail'
+import { FavouritesProvider } from './contexts/FavouritesContext'
 
 const App = () => {
   const router = createBrowserRouter(
@@ -22,7 +23,9 @@ const App = () => {
     )
   )
   return (
-    <RouterProvider router={router}/>
+    <FavouritesProvider>
+      <RouterProvider router={router}/>
+    </FavouritesProvider>
   )
 }
 

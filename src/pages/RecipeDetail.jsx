@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { Tag, Clock, Users, ChefHat, ArrowLeft, List } from 'lucide-react'
+import { Tag, Clock, Users, ChefHat, ArrowLeft, List, Heart } from 'lucide-react'
+import { useFavourites } from '../contexts/FavouritesContext'
 
 const RecipeDetail = () => {
   const { id } = useParams()
@@ -9,6 +10,7 @@ const RecipeDetail = () => {
   const [meal, setMeal] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const { toggleFavourite, isFavourite } = useFavourites()
 
   useEffect(() => {
     const fetchMeal = async () => {
@@ -67,7 +69,7 @@ const RecipeDetail = () => {
       {/* Back Button */}
       <button 
         onClick={() => navigate('/')}
-        className="flex items-center gap-2 mb-6 text-amber-700 hover:text-amber-900 transition-colors duration-200"
+        className="flex items-center gap-2 mb-6 text-amber-700 hover:text-amber-900 transition-colors duration-200 cursor-pointer"
       >
         <ArrowLeft size={20} />
         <span className="font-medium">Back to Home</span>
@@ -91,14 +93,24 @@ const RecipeDetail = () => {
             </h2>
             
             <div className="space-y-4">
-              <div className="flex flex-wrap gap-2">
-                {tags.length > 0 ? tags.map((tag, index) => (
-                  <span key={index} className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
-                    {tag}
-                  </span>
-                )) : (
-                  <span className="text-gray-500">No tags available</span>
-                )}
+              <div className="flex items-center justify-between">
+                <div className="flex flex-wrap gap-2">
+                  {tags.length > 0 ? tags.map((tag, index) => (
+                    <span key={index} className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
+                      {tag}
+                    </span>
+                  )) : (
+                    <span className="text-gray-500">No tags available</span>
+                  )}
+                </div>
+                
+                <button 
+                  onClick={() => toggleFavourite(id)}
+                  className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium transition-colors ${isFavourite(id) ? 'bg-red-500 text-white' : 'bg-gray-100 text-gray-800'}`}
+                >
+                  <Heart size={16} fill={isFavourite(id) ? 'currentColor' : 'none'} />
+                  {isFavourite(id) ? 'Favourited' : 'Add to Favourite'}
+                </button>
               </div>
               
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
