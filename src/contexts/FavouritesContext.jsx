@@ -30,8 +30,13 @@ export const FavouritesProvider = ({ children }) => {
 
   const isFavourite = (id) => favourites.includes(id)
 
+  const clearAll = () => {
+    setFavourites([])
+    localStorage.setItem('favourites', JSON.stringify([]))
+  }
+
   return (
-    <FavouritesContext.Provider value={{ favourites, toggleFavourite, isFavourite }}>
+    <FavouritesContext.Provider value={{ favourites, toggleFavourite, isFavourite, clearAll }}>
       {children}
     </FavouritesContext.Provider>
   )
