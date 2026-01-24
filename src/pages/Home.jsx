@@ -26,6 +26,7 @@ const Home = () => {
       setError('Failed to fetch meals')
     } finally {
       setLoading(false)
+      document.getElementById('featured-today')?.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -84,7 +85,7 @@ const Home = () => {
         </button>
       </div>
 
-      <div className="flex items-center gap-3 w-full md:w-[95%] lg:w-[98%] mx-auto mt-8 mb-4">
+      <div id="featured-today" className="flex items-center gap-3 w-full md:w-[95%] lg:w-[98%] mx-auto mt-8 mb-4">
         <TrendingUp className="text-amber-700 font-bold" />
         <h3 className="text-4xl font-bold text-amber-800">Featured Today</h3>
       </div>

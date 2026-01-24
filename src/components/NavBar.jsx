@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { createPortal } from 'react-dom'
-import { ChefHat, Home, Menu, Heart, Globe, Shuffle, X } from 'lucide-react'
+import { ChefHat, Home, Menu, Heart, Globe, X } from 'lucide-react'
 import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
@@ -30,7 +30,6 @@ const NavBar = () => {
             <NavLink className={({isActive})=>isActive?'bg-amber-200 rounded-lg':undefined} to={'/Favourite'}><li className='flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center'><Heart width={20}/>Favourite</li></NavLink>
             <NavLink className={({isActive})=>isActive?'bg-amber-200 rounded-lg':undefined} to={'/Categories'}><li className='flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center'><Menu width={19}/>Categories</li></NavLink>
             <NavLink  to={'#'}><li className='flex gap-2 cursor-pointer hover:bg-amber-100 rounded-lg py-2 px-3 items-center'><Globe width={19}/>Countries</li></NavLink>
-            <NavLink to={'#'}><li className='flex border-2 cursor-pointer border-amber-500 rounded-md  py-1 gap-2 px-2 hover:bg-amber-100 items-center'><Shuffle width={20}/>Random</li></NavLink>
           </ul>
         </div>
 
@@ -50,7 +49,6 @@ const NavBar = () => {
                 <NavLink className={({isActive})=>isActive?'bg-amber-200 rounded-lg':undefined} to={'/Favourite'}><li className='flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center'><Heart width={20}/>Favourite</li></NavLink>
                 <NavLink className={({isActive})=>isActive?'bg-amber-200 rounded-lg':undefined} to={'/Categories'}><li className='flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center'><Menu width={19}/>Categories</li></NavLink>
                 <NavLink  to={'#'}><li className='flex gap-2 cursor-pointer hover:bg-amber-100 rounded-lg py-2 px-3 items-center'><Globe width={19}/>Countries</li></NavLink>
-                <NavLink to={'#'}><li className='flex border-2 cursor-pointer border-amber-500 rounded-md  py-1 gap-2 px-2 hover:bg-amber-100 items-center'><Shuffle width={20}/>Random</li></NavLink>
               </ul>
             </div>
           </div>,
