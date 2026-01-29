@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { ChefHat, Clock, ForkKnife, Globe, Star, TrendingUp, Loader2 } from 'lucide-react'
 import { Search } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import DescCard from '../components/DescCard'
 import RecipeCard from '../components/RecipeCard' 
 
@@ -10,6 +10,7 @@ const Home = () => {
   const [meals, setMeals] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const location = useLocation()
   const navigate = useNavigate()
 
   const fetchRandomMeals = async () => {
@@ -38,6 +39,16 @@ const Home = () => {
       fetchRandomMeals()
     }
   }, [])
+
+  // Scroll to Featured Today when navigating with hash (e.g. from footer "Random Meal")
+  useEffect(() => {
+    if (location.hash === '#featured-today' || window.location.hash === '#featured-today') {
+      const timer = setTimeout(() => {
+        document.getElementById('featured-today')?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [location])
 
   return (
     <div> 

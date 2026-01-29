@@ -1,6 +1,26 @@
 import { ChefHat } from 'lucide-react'
 import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa'
+
+const RandomMealLink = () => {
+  const location = useLocation()
+  const handleClick = (e) => {
+    if (location.pathname === '/') {
+      e.preventDefault()
+      document.getElementById('featured-today')?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+  return (
+    <Link
+      to={{ pathname: '/', hash: 'featured-today' }}
+      onClick={handleClick}
+      className="text-amber-200 hover:text-amber-300 transition-colors"
+    >
+      Random Meal
+    </Link>
+  )
+}
 
 const Footer = () => {
   return (
@@ -47,16 +67,16 @@ const Footer = () => {
             <h2 className="text-white text-xl md:text-2xl font-bold mb-3">Quick Links</h2>
             <ul className="space-y-2 ">
               <li>
-                <a href="#" className="text-amber-200 hover:text-amber-300 transition-colors">Home</a>
+                <Link to="/" className="text-amber-200 hover:text-amber-300 transition-colors">Home</Link>
               </li>
               <li>
-                <a href="#" className="text-amber-200 hover:text-amber-300 transition-colors">Categories</a>
+                <Link to="/Categories" className="text-amber-200 hover:text-amber-300 transition-colors">Categories</Link>
               </li>
               <li>
-                <a href="#" className="text-amber-200 hover:text-amber-300 transition-colors">Favorites</a>
+                <Link to="/Favourite" className="text-amber-200 hover:text-amber-300 transition-colors">Favorites</Link>
               </li>
               <li>
-                <a href="#" className="text-amber-200 hover:text-amber-300 transition-colors">Random Meal</a>
+                <RandomMealLink />
               </li>
             </ul>
           </div>
