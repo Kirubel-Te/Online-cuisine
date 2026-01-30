@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { ChefHat, Clock, ForkKnife, Globe, Star, TrendingUp, Loader2 } from 'lucide-react'
 import { Search } from 'lucide-react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import DescCard from '../components/DescCard'
 import RecipeCard from '../components/RecipeCard' 
 
@@ -71,13 +71,13 @@ const Home = () => {
             <button type='submit' className='bg-gray-500 text-white rounded-md w-full md:w-auto px-4 py-1 md:ml-2 hover:bg-amber-600'>Search</button>
           </form>
         </div>
-        <div className='quick-search flex items-center  justify-center gap-2 mb-6'>
+        <div className='quick-search flex items-center justify-center gap-2 mb-6 flex-wrap'>
           <p className='text-amber-700 font-medium mb-2 text-sm py-1'>Quick Search:</p>
-          <button className='bg-orange-100 rounded-lg text-sm px-2 py-1 hover:bg-amber-600 hover:text-white'>Chicken</button>
-          <button className='bg-orange-100 rounded-lg text-sm px-2 py-1 hover:bg-amber-600 hover:text-white'>Beef</button>
-          <button className='bg-orange-100 rounded-lg text-sm px-2 py-1 hover:bg-amber-600 hover:text-white'>Vegetarian</button>
-          <button className='bg-orange-100 rounded-lg text-sm px-2 py-1 hover:bg-amber-600 hover:text-white'>Pasta</button>
-          <button className='bg-orange-100 rounded-lg text-sm px-2 py-1 hover:bg-amber-600 hover:text-white'>Dessert</button>
+          <Link to="/category/Chicken" className='bg-orange-100 rounded-lg text-sm px-2 py-1 hover:bg-amber-600 hover:text-white transition-colors'>Chicken</Link>
+          <Link to="/category/Beef" className='bg-orange-100 rounded-lg text-sm px-2 py-1 hover:bg-amber-600 hover:text-white transition-colors'>Beef</Link>
+          <Link to="/category/Vegetarian" className='bg-orange-100 rounded-lg text-sm px-2 py-1 hover:bg-amber-600 hover:text-white transition-colors'>Vegetarian</Link>
+          <Link to="/category/Pasta" className='bg-orange-100 rounded-lg text-sm px-2 py-1 hover:bg-amber-600 hover:text-white transition-colors'>Pasta</Link>
+          <Link to="/category/Dessert" className='bg-orange-100 rounded-lg text-sm px-2 py-1 hover:bg-amber-600 hover:text-white transition-colors'>Dessert</Link>
         </div>
       </div>
       <div className='grid md:grid-cols-3 gap-3 grid-cols-1 w-[90%] md:w-[60%] mx-auto justify-items-center mb-8 mt-8'>
