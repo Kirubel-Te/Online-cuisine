@@ -85,19 +85,19 @@ const Footer = () => {
             <h2 className="text-white text-xl md:text-2xl font-bold mb-3">Popular Categories</h2>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-amber-200 hover:text-amber-300 transition-colors">Desserts</a>
+                <Link to="/category/Dessert" className="text-amber-200 hover:text-amber-300 transition-colors">Dessert</Link>
               </li>
               <li>
-                <a href="#" className="text-amber-200 hover:text-amber-300 transition-colors">Vegetarian</a>
+                <Link to="/category/Vegetarian" className="text-amber-200 hover:text-amber-300 transition-colors">Vegetarian</Link>
               </li>
               <li>
-                <a href="#" className="text-amber-200 hover:text-amber-300 transition-colors">Chicken</a>
+                <Link to="/category/Chicken" className="text-amber-200 hover:text-amber-300 transition-colors">Chicken</Link>
               </li>
               <li>
-                <a href="#" className="text-amber-200 hover:text-amber-300 transition-colors">Pasta</a>
+                <Link to="/category/Pasta" className="text-amber-200 hover:text-amber-300 transition-colors">Pasta</Link>
               </li>
               <li>
-                <a href="#" className="text-amber-200 hover:text-amber-300 transition-colors">Quick Meals</a>
+                <Link to="/Categories" className="text-amber-200 hover:text-amber-300 transition-colors">Quick Meals</Link>
               </li>
             </ul>
           </div>
