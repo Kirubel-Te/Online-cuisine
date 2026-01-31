@@ -10,8 +10,17 @@ const Home = () => {
   const [meals, setMeals] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [searchType, setSearchType] = useState('Name')
   const location = useLocation()
   const navigate = useNavigate()
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault()
+    const term = searchTerm.trim()
+    if (!term) return
+    navigate(`/search?q=${encodeURIComponent(term)}&type=${encodeURIComponent(searchType)}`)
+  }
 
   const fetchRandomMeals = async () => {
     try {
@@ -59,12 +68,22 @@ const Home = () => {
           <p className='text-amber-600 md:text-xl font-light mt-6 md:w-[60%] w-[80%] mx-auto text-center'>Discover delicious meals from around the world. Search by ingredient, browse categories, or find your next favorite dish from our collection of thousands of recipes!</p>
         </div>
         <div className='forms flex flex-col items-center md:justify-center mt-6 mb-6'>
-          <form className='relative flex flex-col md:flex-row items-stretch md:items-center w-[90%] md:w-auto mx-auto gap-2 md:justify-center'>
+          <form onSubmit={handleSearchSubmit} className='relative flex flex-col md:flex-row items-stretch md:items-center w-[90%] md:w-auto mx-auto gap-2 md:justify-center'>
             <div className="relative w-full md:w-auto md:mx">
               <Search className='absolute left-3 top-1/2 -translate-y-1/2 text-amber-500' />
-              <input type="text" placeholder='Search for recipes...' className='border-2 border-gray-400 rounded-md pl-10 pr-3 py-1 md:w-96 w-full focus:outline-amber-500'/>
+              <input
+                type="text"
+                placeholder='Search for recipes...'
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className='border-2 border-gray-400 rounded-md pl-10 pr-3 py-1 md:w-96 w-full focus:outline-amber-500'
+              />
             </div>
-            <select className='border-2 border-gray-400 w-full md:w-40 rounded-md px-2 py-1 md:ml-2 focus:outline-amber-500'>
+            <select
+              value={searchType}
+              onChange={(e) => setSearchType(e.target.value)}
+              className='border-2 border-gray-400 w-full md:w-40 rounded-md px-2 py-1 md:ml-2 focus:outline-amber-500'
+            >
               <option value="Name">By Name</option>
               <option value="Ingredient">By Ingredient</option>
             </select>

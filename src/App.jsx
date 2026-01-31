@@ -8,6 +8,7 @@ import Categories from './pages/Categories'
 import Favourite from './pages/Favourite'
 import CategoryDetail from './pages/CategoryDetail'
 import RecipeDetail from './pages/RecipeDetail'
+import SearchResults from './pages/SearchResults'
 import NotFound from './pages/NotFound'
 import { FavouritesProvider } from './contexts/FavouritesContext'
 
@@ -19,6 +20,7 @@ const App = () => {
         <Route path='Categories' element={<Categories/>} />
         <Route path='category/:categoryName' element={<CategoryDetail/>}/>
         <Route path='recipe/:id' element={<RecipeDetail/>}/>
+        <Route path='search' element={<SearchResults/>}/>
         <Route path='Favourite' element={<Favourite/>}/>
         <Route path='*' element={<NotFound/>}/>
       </Route>
