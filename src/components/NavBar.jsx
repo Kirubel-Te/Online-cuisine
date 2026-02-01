@@ -1,10 +1,79 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { ChefHat, Home, Menu, Heart, Globe, X } from 'lucide-react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+
+const AREAS_API = 'https://www.themealdb.com/api/json/v1/1/list.php?a=list';
 
 const NavBar = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [countriesOpen, setCountriesOpen] = useState(false);
+  const [areas, setAreas] = useState([]);
+  const countriesRefDesktop = useRef(null);
+  const countriesRefMobile = useRef(null);
+
+  const handleAreaSelect = (area) => {
+    setCountriesOpen(false);
+    setOpen(false);
+    navigate(`/country/${encodeURIComponent(area)}`);
+  };
+
+  useEffect(() => {
+    fetch(AREAS_API)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.meals) setAreas(data.meals.map((m) => m.strArea).sort());
+      })
+      .catch(() => setAreas([]));
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      const inside =
+        countriesRefDesktop.current?.contains(e.target) ||
+        countriesRefMobile.current?.contains(e.target);
+      if (!inside) setCountriesOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const CountriesButton = ({ inMobile, buttonRef }) => (
+    <div className="relative" ref={buttonRef}>
+      <button
+        type="button"
+        onClick={() => setCountriesOpen((prev) => !prev)}
+        className={`flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center w-full ${inMobile ? 'text-left' : ''}`}
+        aria-expanded={countriesOpen}
+        aria-haspopup="listbox"
+      >
+        <Globe width={19} />
+        Countries
+      </button>
+      {countriesOpen && (
+        <ul
+          role="listbox"
+          className="absolute left-0 top-full mt-1 min-w-[180px] max-h-64 overflow-y-auto bg-white border border-amber-200 rounded-lg shadow-lg py-1 z-50"
+        >
+          {areas.length === 0 ? (
+            <li className="px-3 py-2 text-amber-700 text-sm">Loading…</li>
+          ) : (
+            areas.map((area) => (
+              <li
+                key={area}
+                role="option"
+                className="px-3 py-2 hover:bg-amber-100 cursor-pointer text-amber-900 text-sm"
+                onClick={() => handleAreaSelect(area)}
+              >
+                {area}
+              </li>
+            ))
+          )}
+        </ul>
+      )}
+    </div>
+  );
 
   return (
     <div className='flex justify-between py-2 border-b border-amber-400 bg-white/30 backdrop-blur-md backdrop-saturate-150 sticky top-0 z-30'>
@@ -29,7 +98,7 @@ const NavBar = () => {
             <NavLink className={({isActive})=> isActive?'bg-amber-200 rounded-lg':undefined} to={'/'}><li className='flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center'><Home width={20}/>Home</li></NavLink>
             <NavLink className={({isActive})=>isActive?'bg-amber-200 rounded-lg':undefined} to={'/Favourite'}><li className='flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center'><Heart width={20}/>Favourite</li></NavLink>
             <NavLink className={({isActive})=>isActive?'bg-amber-200 rounded-lg':undefined} to={'/Categories'}><li className='flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center'><Menu width={19}/>Categories</li></NavLink>
-            <NavLink  to={'#'}><li className='flex gap-2 cursor-pointer hover:bg-amber-100 rounded-lg py-2 px-3 items-center'><Globe width={19}/>Countries</li></NavLink>
+            <li><CountriesButton buttonRef={countriesRefDesktop} /></li>
           </ul>
         </div>
 
@@ -48,7 +117,7 @@ const NavBar = () => {
                 <NavLink className={({isActive})=> isActive?'bg-amber-200 rounded-lg':undefined} to={'/'}><li className='flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center'><Home width={20}/>Home</li></NavLink>
                 <NavLink className={({isActive})=>isActive?'bg-amber-200 rounded-lg':undefined} to={'/Favourite'}><li className='flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center'><Heart width={20}/>Favourite</li></NavLink>
                 <NavLink className={({isActive})=>isActive?'bg-amber-200 rounded-lg':undefined} to={'/Categories'}><li className='flex gap-2 hover:bg-amber-100 rounded-lg py-2 px-3 cursor-pointer items-center'><Menu width={19}/>Categories</li></NavLink>
-                <NavLink  to={'#'}><li className='flex gap-2 cursor-pointer hover:bg-amber-100 rounded-lg py-2 px-3 items-center'><Globe width={19}/>Countries</li></NavLink>
+                <li><CountriesButton inMobile buttonRef={countriesRefMobile} /></li>
               </ul>
             </div>
           </div>,
