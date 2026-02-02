@@ -4,6 +4,8 @@
 
 This is a React + Vite application that lets users explore recipes by category, country, keyword search, and detailed recipe pages. Users can also manage a list of favourite recipes.
 
+**Live Demo:** [`online-cuisine.vercel.app`](https://online-cuisine.vercel.app)
+
 ## Features
 
 - **Browse by category**: View recipes grouped by meal categories (e.g., Beef, Dessert, Vegetarian).
